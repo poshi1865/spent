@@ -1,43 +1,54 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 
 #define MAXSIZE 100
 
-//TODO  
-//Add feature for keeping track of monthly expenses
-
 void spend();
-void total();
-void display();
+void total(char* month);
+void display(char* month);
+void print_usage();
 int isnumber();
 int string_to_int(const char* s);
+char* int_to_string();
 
 int main(int argc, char** argv) {
 
-    if (argc == 1) 
-        printf("usage: spent amount spent_on\n");
-    
-    else if (strcmp(argv[1], "--help") == 0) 
-        printf("usage: spent amount spent_on\n");
+    if (argc == 1) {
+        print_usage();
+    }
+        
+    else if (strcmp(argv[1], "--help") == 0)  {
+        print_usage();
+    }
 
-    else if (strcmp(argv[1], "--list") == 0) 
-        display();
+    else if (argc == 3 && strcmp(argv[1], "--list") == 0) 
+        display(argv[2]);
 
-    else if (strcmp(argv[1], "--total") == 0) 
-        total();
+    else if (argc == 3 && strcmp(argv[1], "--total") == 0)  
+        total(argv[2]);
 
     else if (argc == 3 && isnumber(argv[1]) == 0 && isnumber(argv[2]) == -1) 
         spend(argv[1], argv[2]);
     
-    else 
-        printf("usage: spent amount spent_on\n");
+    else {
+        print_usage();
+    }
 
     return 0;
 }
 
 void spend(const char* amount, const char* spent_on) {
-    unsigned int spent;
+    
+    time_t t = time(NULL);
+    struct tm time = *localtime(&t);
+
+    char *month = malloc(sizeof(char) * 2);
+    month = int_to_string(time.tm_mon + 1);
+
+    char *year = malloc(sizeof(char) * 4); 
+    year = int_to_string(time.tm_year + 1900);
 
     int c;
     int i = 0;
@@ -46,10 +57,18 @@ void spend(const char* amount, const char* spent_on) {
     printf("Amount: %s\n", amount);
     printf("Spent on: %s\n", spent_on);
 
+    //Get path of file for current month
+    char path[] = "/home/naachiket/.expenses/";
+    strcat(path, strcat(month, ".dat"));
+
+    free(month);
+    free(year);
+    month = NULL;
+    year = NULL;
 
     FILE *ex;
-    if ((ex = fopen("/home/naachiket/.expenses/expenses.dat", "a")) == NULL) {
-        printf("Error opening expenses file. Exiting.....");
+    if ((ex = fopen(path, "a")) == NULL) {
+        printf("Error opening data file. Exiting.....\n");
         exit(0);
     }
 
@@ -59,10 +78,15 @@ void spend(const char* amount, const char* spent_on) {
     fclose(ex);
 }
 
-void total() {
+void total(char* month) {
+
+    //Get path of file for specified month
+    char path[] = "/home/naachiket/.expenses/";
+    strcat(path, strcat(month, ".dat"));
+
     FILE* ex;
-    if ((ex = fopen("/home/naachiket/.expenses/expenses.dat", "r")) == NULL) {
-        printf("Error opening expenses file. Exiting.....");
+    if ((ex = fopen(path, "r")) == NULL) {
+        printf("Error opening data file. Exiting.....\n");
         exit(0);
     }
 
@@ -89,14 +113,19 @@ void total() {
     }
     printf("Total Spent: %d\n", sum);
 
-    fclose(ex);
     free(spent_money);
+    fclose(ex);
 }
 
-void display() {
+void display(char* month) {
+
+    //Get path of file for specified month
+    char path[] = "/home/naachiket/.expenses/";
+    strcat(path, strcat(month, ".dat"));
+
     FILE* ex;
-    if ((ex = fopen("/home/naachiket/.expenses/expenses.dat", "r")) == NULL) {
-        printf("Error opening expenses file. Exiting.....");
+    if ((ex = fopen(path, "r")) == NULL) {
+        printf("Error opening data file. Exiting.....\n");
         exit(0);
     }
 
@@ -120,10 +149,26 @@ int string_to_int(const char* s) {
     return result;
 }
 
+char* int_to_string(int n) {
+    int length = snprintf(NULL, 0, "%d", n);
+    char* str = malloc(length + 1);
+    snprintf(str, length + 1, "%d", n);
+    return str;
+}
+
 int isnumber(char s[]) {
     for (int i = 0; i < strlen(s); i++) {
         if (s[i] < '0' || s[i] > '9') 
             return -1;
     }
     return 0;
+}
+
+void print_usage() {
+        printf("usage:\nspent amount spent_on\n");
+        printf("\tThis will store the amount with the thing you spent it on\n");
+        printf("spent --total month_number(1-12)\n");
+        printf("\tThis will give you the total amount you have spent in the specified month\n");
+        printf("spent --list month_number(1-12)\n");
+        printf("\tThis will give you the amount and the list of items for the specified month\n");
 }
