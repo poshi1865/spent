@@ -4,23 +4,31 @@
 
 #define MAXSIZE 100
 
-void printMenu();
+//TODO  
+//Add feature for keeping track of monthly expenses
+
 void spend();
 void total();
 void display();
+int isnumber();
 int string_to_int(const char* s);
 
 int main(int argc, char** argv) {
     
-    if (strcmp(argv[1], "--list") == 0) 
+    if (strcmp(argv[1], "--help") == 0) 
+        printf("usage: spent amount spent_on\n");
+
+    else if (strcmp(argv[1], "--list") == 0) 
         display();
 
     else if (strcmp(argv[1], "--total") == 0) 
         total();
 
-    else {
+    else if (argc > 2 && isnumber(argv[1]) == 0 && isnumber(argv[2]) == -1) 
         spend(argv[1], argv[2]);
-    }
+    
+    else 
+        printf("usage: spent amount spent_on\n");
 
     return 0;
 }
@@ -31,13 +39,11 @@ void spend(const char* amount, const char* spent_on) {
     int c;
     int i = 0;
 
-    //Inputting amount and spent_on
 
     printf("Amount: %s\n", amount);
     printf("Spent on: %s\n", spent_on);
 
 
-    //Opening file for storing data
     FILE *ex;
     if ((ex = fopen("/home/naachiket/.expenses/expenses.dat", "a")) == NULL) {
         printf("Error opening expenses file. Exiting.....");
@@ -48,13 +54,6 @@ void spend(const char* amount, const char* spent_on) {
     fprintf(ex, "%s\n", spent_on);
 
     fclose(ex);
-}
-
-void printMenu() {
-    printf("1 --> Spend\n");
-    printf("2 --> Total\n");
-    printf("3 --> Display\n");
-    printf("4 --> Exit\n");
 }
 
 void total() {
@@ -98,7 +97,6 @@ void display() {
         exit(0);
     }
 
-    printf("List:\n");
     int c;
     while((c = getc(ex)) != EOF) 
         printf("%c", c);
@@ -119,27 +117,10 @@ int string_to_int(const char* s) {
     return result;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+int isnumber(char s[]) {
+    for (int i = 0; i < strlen(s); i++) {
+        if (s[i] < '0' || s[i] > '9') 
+            return -1;
+    }
+    return 0;
+}
