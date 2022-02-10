@@ -14,8 +14,11 @@ int isnumber();
 int string_to_int(const char* s);
 
 int main(int argc, char** argv) {
+
+    if (argc == 1) 
+        printf("usage: spent amount spent_on\n");
     
-    if (strcmp(argv[1], "--help") == 0) 
+    else if (strcmp(argv[1], "--help") == 0) 
         printf("usage: spent amount spent_on\n");
 
     else if (strcmp(argv[1], "--list") == 0) 
@@ -24,7 +27,7 @@ int main(int argc, char** argv) {
     else if (strcmp(argv[1], "--total") == 0) 
         total();
 
-    else if (argc > 2 && isnumber(argv[1]) == 0 && isnumber(argv[2]) == -1) 
+    else if (argc == 3 && isnumber(argv[1]) == 0 && isnumber(argv[2]) == -1) 
         spend(argv[1], argv[2]);
     
     else 
