@@ -33,8 +33,7 @@ Total Spent: 886
 ```
 
 Installation:
-requirements: gcc
-clone this project, go into the project folder and run:
+Clone this project, go into the project folder and run:
 ```
 chmod u+x install.sh
 ./install.sh
