@@ -1,11 +1,10 @@
 This is a program I wrote to track my expenses. You can enter the amount spent and the item you spent it on.
 The list as well as the total for different months can be fetched by specifying it in the arguments.
 
-
 usage:
 ```
 spent amount spent_on
-        This will store the amount with the thing you spent it on
+        This will store the amount with the thing you spent it on. spent_on has to be a string without any spaces.
 
 spent --total month_number(1-12)
         This will give you the total amount you have spent in the specified month
