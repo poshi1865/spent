@@ -31,4 +31,3 @@ $ ./spent --list 2
 $ ./spent --total 2
 Total Spent: 886
 ```
-
