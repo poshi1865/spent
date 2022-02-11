@@ -181,7 +181,7 @@ int isnumber(char s[]) {
 
 void print_usage() {
         printf("usage:\nspent amount spent_on\n");
-        printf("\tThis will store the amount with the thing you spent it on\n");
+        printf("\tThis will store the amount with the thing you spent it on. spent_on has to be a string without spaces\n");
         printf("spent --total month_number(1-12)\n");
         printf("\tThis will give you the total amount you have spent in the specified month\n");
         printf("spent --list month_number(1-12)\n");
