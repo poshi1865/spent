@@ -33,9 +33,10 @@ Total Spent: 886
 ```
 
 Installation:
+requirements: gcc
 clone this project, go into the project folder and run:
 ```
 chmod u+x install.sh
 ./install.sh
 ```
-
+This will install a binary into your ~/bin/ folder
