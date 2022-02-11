@@ -31,3 +31,11 @@ $ ./spent --list 2
 $ ./spent --total 2
 Total Spent: 886
 ```
+
+Installation:
+clone this project, go into the project folder and run:
+```
+chmod u+x install.sh
+./install.sh
+```
+
