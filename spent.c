@@ -58,7 +58,10 @@ void spend(const char* amount, const char* spent_on) {
     printf("Spent on: %s\n", spent_on);
 
     //Get path of file for current month
-    char path[] = "/home/naachiket/.expenses/";
+    char temp[] = "/.expenses/";
+    char* path = malloc(sizeof(char) * 256);
+    char* home = getenv("HOME");
+    strcpy(path, strcat(home, temp));
     strcat(path, strcat(month, ".dat"));
 
     free(month);
@@ -75,13 +78,19 @@ void spend(const char* amount, const char* spent_on) {
     fprintf(ex, "%s\t\t", amount);
     fprintf(ex, "%s\n", spent_on);
 
+    free(path);
+    path = NULL;
+
     fclose(ex);
 }
 
 void total(char* month) {
 
     //Get path of file for specified month
-    char path[] = "/home/naachiket/.expenses/";
+    char temp[] = "/.expenses/";
+    char *path = malloc(sizeof(char) * 256);
+    char* home = getenv("HOME");
+    strcpy(path, strcat(home, temp));
     strcat(path, strcat(month, ".dat"));
 
     FILE* ex;
@@ -114,13 +123,19 @@ void total(char* month) {
     printf("Total Spent: %d\n", sum);
 
     free(spent_money);
+    free(path);
+    path = NULL;
+    home = NULL;
     fclose(ex);
 }
 
 void display(char* month) {
 
     //Get path of file for specified month
-    char path[] = "/home/naachiket/.expenses/";
+    char temp[] = "/.expenses/";
+    char *path = malloc(sizeof(char) * 256);
+    char* home = getenv("HOME");
+    strcpy(path, strcat(home, temp));
     strcat(path, strcat(month, ".dat"));
 
     FILE* ex;
