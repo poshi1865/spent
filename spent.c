@@ -44,8 +44,13 @@ void spend(const char* amount, const char* spent_on) {
     time_t t = time(NULL);
     struct tm time = *localtime(&t);
 
+    char *date = malloc(sizeof(char) * 2);
+    date = int_to_string(time.tm_mday);
+
     char *month = malloc(sizeof(char) * 2);
     month = int_to_string(time.tm_mon + 1);
+    char tempmonth[strlen(month)];
+    strcpy(tempmonth, month);
 
     char *year = malloc(sizeof(char) * 4); 
     year = int_to_string(time.tm_year + 1900);
@@ -64,11 +69,6 @@ void spend(const char* amount, const char* spent_on) {
     strcpy(path, strcat(home, temp));
     strcat(path, strcat(month, ".dat"));
 
-    free(month);
-    free(year);
-    month = NULL;
-    year = NULL;
-
     FILE *ex;
     if ((ex = fopen(path, "a")) == NULL) {
         printf("Error opening data file. Exiting.....\n");
@@ -76,7 +76,14 @@ void spend(const char* amount, const char* spent_on) {
     }
 
     fprintf(ex, "%s\t\t", amount);
-    fprintf(ex, "%s\n", spent_on);
+    fprintf(ex, "%s\t", spent_on);
+    fprintf(ex, "%s-%s-%s\n", date, tempmonth, year);
+
+    free(date);
+    free(month);
+    free(year);
+    month = NULL;
+    year = NULL;
 
     free(path);
     path = NULL;
