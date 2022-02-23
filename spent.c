@@ -76,7 +76,7 @@ void spend(const char* amount, const char* spent_on) {
     }
 
     fprintf(ex, "%s\t\t", amount);
-    fprintf(ex, "%s\t", spent_on);
+    fprintf(ex, "%s\t\t", spent_on);
     fprintf(ex, "%s-%s-%s\n", date, tempmonth, year);
 
     free(date);
