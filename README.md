@@ -14,20 +14,20 @@ spent --list month_number(1-12)
 ```
 
 ```
-$ ./spent 157 food
+$ spent 157 food
 Amount: 157
 Spent on: food
 ```
 
 ```
-$ ./spent --list 2
+$ spent --list 2
 199 cab
 272 takeaway
 15 coffee
 ```
 
 ```
-$ ./spent --total 2
+$ spent --total 2
 Total Spent: 886
 ```
 
