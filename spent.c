@@ -31,7 +31,7 @@ int main(int argc, char** argv) {
 
     else if (argc == 3 && isnumber(argv[1]) == 0 && isnumber(argv[2]) == -1) 
         spend(argv[1], argv[2]);
-    
+
     else {
         print_usage();
     }
